@@ -130,11 +130,12 @@
                   length.classList.add("invalid");
               }
           });
+          
       </script>
 
         <div class="rightcontainer">
             <section class="customersat">
-              <form action="https://jsonplaceholder.typicode.com/posts" method="post" title="Customersat">
+              <form action="#" method="post" title="Customersat" onsubmit="handleSubmit(event)">
                 <h1>CUSTOMER SATISFACTION</h1>
                 <fieldset>
                     <legend>Rate us!</legend>
@@ -149,12 +150,32 @@
                     <input type="radio" id="1stars" name="rating" value="1">
                     <label for="1stars">&#127775;</label>
                     <br>
-                    <button type="submit" class="btn btn-dark-red btn-animated" tabindex="0">SUBMIT</button>
+                    <button type="submit" class="btn btn-dark-red btn-animated" onclick="toastr()">SUBMIT</button>
                     
                 </fieldset>
               </form>
+              <div id="snackbar">Your rating has been saved!</div>
             </section>
+            <script>
+              function toastr() {
+               
+                var x = document.getElementById("snackbar");
+           
+                x.className = "show";
+  
+                setTimeout(function() {
+                  x.className = x.className.replace("show", "");
+                }, 3000);
+              }
+          
+              function handleSubmit(event) {
+                event.preventDefault(); 
+                toastr(); }
+                
 
+               
+      
+            </script>
             <section class="products">
                 <form action="https://jsonplaceholder.typicode.com/posts" method="post" title="Products">
                     <h1>PRODUCTS</h1>

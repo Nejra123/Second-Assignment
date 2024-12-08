@@ -110,15 +110,38 @@
        
         <div class="modal-body">
           <img src="promotion.png" alt="promotion"  width="70%" >
-         <form action="https://jsonplaceholder.typicode.com/posts" method="post" title="promotionmail">
+          <form action="#" method="post" title="promotionmail" id="add-user-form">
             <div class="promotionmail">
-            <input type="email" id="promotionmailid" name="promotionmail" placeholder="Your email address">
-            <button type="submit" id="promotionbutton">Submit</button>
-            
-          </div>
+                <input type="email" id="promotionmailid" onchange="handleInputChange(event)" name="promotionmail" placeholder="Your email address">
+                <button type="button" id="promotionbutton" onclick="toastr()">Submit</button>
+            </div>
+            <div id="snackbar"><div id="output"></div></div>
+        </form>
+        
+        <script>
+            function toastr() {
+                var x = document.getElementById("promotionmailid").value;
+                const message = document.getElementById("output");
+                message.innerHTML = "";  
+        
+                try {
+                    if (x.trim() == "") throw "empty";
+                    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                   if (!emailPattern.test(x)) throw "not a valid email";
          
-         </form>
-          
+                    message.innerHTML = "Input is saved: " + x;
+                } catch (err) {
+                    message.innerHTML = "Input is " + err;
+                }
+        
+                var snackbar = document.getElementById("snackbar");
+                snackbar.className = "show";
+                setTimeout(function() {
+                    snackbar.className = snackbar.className.replace("show", "");
+                }, 3000);
+            }
+        </script>
+        
         </div>
         
       </div>
@@ -135,27 +158,45 @@
     <section class="suppliers">
        <p>Our suppliers:</p>
         <br>
-       
-        <ol>
-            <li>BiH Marbo</li>
-            <li>BioLife</li>
-            <li>Bodrumi Vjetar</li>
-            <li>Jelido</li>
-            <li>Mikos RF</li>
-            <li>RF Bona</li>
-            <li>RF Ela</li>
-            <li>RF Frupi</li>
-            <li>RF Maspex</li>
-            <li>RF Saray</li>
-            <li>RF Sinalco</li>
-            <li>VIPANA</li>
-            <li>NELT</li>
-            <li>Zlatno Zrno</li>
-            <li>Klas</li>
-        </ol>
+            <ol id="user-list"></ol>
+        </div>
+    
+
 
 
     </section>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch("http://192.168.137.1:8080/data.json");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const list = document.getElementById("user-list");
+
+                data.forEach((user) => {
+                    const listItem = document.createElement("li");
+
+                    const name = document.createElement("h3");
+                    name.textContent = user.name;
+
+                   
+
+                    listItem.appendChild(name);
+                    
+                    list.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                console.log("Fetch operation complete.");
+            }
+        }
+
+        fetchData();
+    </script>
 </main>
     <br>
     <footer >
