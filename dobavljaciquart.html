@@ -168,7 +168,7 @@
     <script>
         async function fetchData() {
             try {
-                const response = await fetch("http://192.168.137.1:8080/data.json");
+                const response = await fetch("./data.json");
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }

@@ -221,7 +221,48 @@
                   </div>
                 
         </div>
+        <div class="kontaktforma">
+          <h1>WHILE YOU ARE WAITING FOR THE RESPONSE</h1>
+          <div id="news-container">
+
+            <div id="news-list" ></div>
+        </div>
+        <script>
+          const apiKey = '48e526c1731846f599bc149893ad251c'; 
+          const url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${apiKey}`;
+  
+          fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                  if (data.status === 'ok') {
+                      const newsList = document.getElementById('news-list');
+                      
+                      const articlesToDisplay = data.articles.slice(0, 5);
+  
+                      articlesToDisplay.forEach(article => {
+                          const articleElement = document.createElement('div');
+                          articleElement.classList.add('news-item');
+                          articleElement.innerHTML = `
+                              <h3 style="font-size: 18px;" ><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                              <p style="color:black; font-size:14px;">${article.description}</p>
+                              <small>Published on: ${new Date(article.publishedAt).toLocaleString()}</small>
+                          `;
+                          newsList.appendChild(articleElement);
+                      });
+                  } else {
+                      console.error('Error fetching news:', data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error fetching the news data:', error);
+              });
+      </script>
+        
+          
+        </div>
+        
     </div>
+    
     <footer >
         <h3>NEJRA ZURAPI</h3> 
         <p>Foundations of Web Development</p>

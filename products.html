@@ -181,20 +181,158 @@ gap:53%;
   .lightmode .product{
     background-color:  rgb(228, 225, 225);
   }
-  
-        @media (max-width: 800px) {
-            .product {
-                flex: 48%; 
-                max-width: 48%;
-            }
-        }
+  .accordion {
+  background-color: aliceblue;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
 
+
+}
+
+
+.isactive, .accordion:hover {
+  background-color: #ccc;
+}
+
+#accdiv{
+
+width: 400px;
+align-items: center;
+
+
+
+}
+#velikidiv {
+  display: flex;
+  justify-content: center;  
+  align-items: center;  
+  gap: 20px;  
+ 
+  
+  
+}
+
+.accsection {
+  
+  color: #1e0002;
+  background-color: aliceblue;
+  display: none;
+  
+
+}
+
+.lightmode .accordion{
+background-color: rgb(228, 225, 225);
+    
+}
+.lightmode .accsection{
+
+    background-color:rgb(241, 238, 238);
+}
+#containerpr{
+    background-color: aliceblue;
+    border-radius: 8px;
+    padding: 20px;
+}
+.lightmode #containerpr{
+    background-color:rgb(228, 225, 225);
+
+}
+
+#containerpr h3 {
+    text-align: center;
+    color: #1e0002;
+}
+
+#containerpr table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#containerpr th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+#containerpr th {
+
+    background-color: #1e0002;
+    color: aliceblue;
+}
+
+#containerpr td {
+    background-color: aliceblue;
+    color: #1e0002;
+}
+
+#containerpr button {
+    padding: 5px 10px;
+    border: none;
+    background-color:#1e0002;
+    color: aliceblue;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#containerpr button:hover {
+    background-color:#400002;
+}
+
+#success{
+    background-color: rgb(61, 54, 54);
+    text-align: center;
+    
+}  
+       
+
+    @media (max-width: 700px) {
+        #velikidiv{
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+       
+        }
+        #accdiv{
+            margin-left: 0px;
+        }
+        #containerpr{
+
+            margin-right: 0px;
+            
+        }
+       
+
+    }
         @media (max-width: 500px) {
             .product {
                 flex: 100%; 
                 max-width: 100%;
             }
+            #velikidiv{
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+                }
+                #accdiv{
+            margin-left: 0px;
         }
+        #containerpr{
+
+            margin-right: 0px;
+        }
+                    }   
     </style>
 </head>
 <body>
@@ -447,6 +585,53 @@ gap:53%;
                 <img src="" alt="product"  id="modalImage">
             </div>
         </div>
+        <div id="velikidiv">
+        <div id="accdiv">
+        <button class="accordion">Vegetables</button>
+        <div class="accsection">
+            <ul>
+                <li>Fresh Fruits</li>
+                <li>Fresh Vegetables</li>
+                <li>Organic Products</li>
+            </ul>
+        </div>
+        
+        <button class="accordion">Bakery</button>
+        <div class="accsection">
+            <ul>
+                <li>Breads</li>
+                <li>Pastries</li>
+                <li>Cakes</li>
+            </ul>
+        </div>
+        
+        <button class="accordion">Dairy</button>
+        <div class="accsection">
+            <ul>
+                <li>Milk</li>
+                <li>Cheese</li>
+                <li>Butter</li>
+            </ul>
+        </div>
+    </div>
+    <div id="containerpr">
+        <h3>Which Products Would You Like </h3><h3>To See In Our Store?</h3>
+        <table id="tbproizvodi" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+        <div id="success" style="display: none;"></div>
+    </div>
+</div>
+      
         
         <footer>
             <h3>NEJRA ZURAPI</h3>
@@ -454,7 +639,26 @@ gap:53%;
         </footer>
         
         <script>
-           
+             var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+    
+        this.classList.toggle("isactive");
+
+    
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+    });
+    }
+
+
+
             document.querySelectorAll('.product img').forEach(image => {
                 image.onclick = function() {
                     
@@ -471,6 +675,76 @@ gap:53%;
             }
         
             
+    
+
+
+
+            let data = [];
+
+
+async function fec() {
+    const response = await fetch("proizvodi.json");
+    data = await response.json();
+    tabela();
+}
+
+
+function tabela() {
+    const tableBody = document.querySelector("#tbproizvodi tbody");
+    tableBody.innerHTML = data.map((item, index) => `
+        <tr>
+            <td>${item.id}</td>
+            <td contenteditable="false">${item.name}</td>
+            <td>
+                <button class="edit" data-index="${index}">Edit</button>
+                <button class="delete" data-index="${index}">Delete</button>
+            </td>
+        </tr>
+    `).join("");
+    attachEventListeners();
+}
+
+function attachEventListeners() {
+    document.querySelectorAll(".edit").forEach(btn => btn.addEventListener("click", edititem));
+    document.querySelectorAll(".delete").forEach(btn => btn.addEventListener("click", deleteitem));
+}
+
+function edititem(event) {
+    const index = event.target.dataset.index;
+    const row = document.querySelectorAll("#tbproizvodi tbody tr")[index];
+    const currentcell = row.cells[1];
+    const currentediting = currentcell.isContentEditable;
+
+    if (!currentediting) {
+        currentcell.contentEditable = "true";
+        currentcell.focus();
+        event.target.textContent = "Save";
+    } else {
+        currentcell.contentEditable = "false";
+        data[index].name = currentcell.textContent;
+        event.target.textContent = "Edit";
+        succmessage("Item updated!");
+    }
+}
+
+function deleteitem(event) {
+    const index = event.target.dataset.index;
+    data.splice(index, 1);
+    tabela();
+    succmessage("Item deleted!");
+}
+
+function succmessage(message) {
+    const messageBox = document.getElementById("success");
+    messageBox.textContent = message;
+    messageBox.style.display = "block";
+    setTimeout(() => (messageBox.style.display = "none"), 2000);
+}
+
+
+fec();
+
+    
         </script>
         
 </body>

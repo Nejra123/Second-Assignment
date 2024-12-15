@@ -58,7 +58,9 @@ p {
     padding: 20px;
     border-radius: 10px;
     width: 350px;
+   
 }
+
 
 .kontaktforma h1 {
     font-size: 32px;
@@ -423,8 +425,8 @@ color: #1e0002;
         from {bottom: 30px; opacity: 1;}
         to {bottom: 0; opacity: 0;}
       }
-    
 
+     
 @media screen and (max-width: 950px) {
     .main {
         display: flex;
