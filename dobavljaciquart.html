@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="theme.js" defer></script>
+            <link rel="stylesheet" href="dobavljaci.css">
+           
+            
+
+        </head>
+        <title>QUART MARKET</title>
+    </head>
+    <body>
+      <div id="navitheme">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand">Quart Market</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="homepage.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="onamaquart.html">Quart</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="dobavljaciquart.html ">Suppliers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="kontaktquart.html">Contact</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                  </li>
+                </ul>
+                
+              </div>
+            </div>
+          </nav>
+          <button id="lightmodebtn">
+            <img id="sun" src="sun.png" alt="sun">
+          </button>
+    
+         <hr>
+         <main>
+            
+<section>
+    <br>
+        <h1>SUPPLIERS</h1>
+        <br><br><br><br>
+        
+         
+        
+        
+            <p>Quart offers a wide range of products supplied by renowned companies.</p>
+            <button id="togglebutton" onclick="contenttoggle()">See More</button>
+            <div id="seemore"></div>
+        <script>
+         
+          function contenttoggle() {
+          
+          let x = document.getElementById("seemore");
+                if (x.innerHTML == "") {
+                      x.innerHTML = "Here you will find carefully selected high quality products that meet different needs and preferences. Whether you are looking for tasty snacks, healthy foods, or refreshing drinks, our store has a wide selection of products provided by our reliable suppliers."
+                      
+                    } else {
+                     x.innerHTML = "";
+                          }
+                        }
+          
+
+        </script>
+        <br><br><br><br><br>
+    
+    </section>
+
+    <div class="speachbubble">
+<section>
+<div class="video">
+<video controls muted autoplay>
+<source src="supermarket.mp4">
+</div>
+</video>
+
+</section>
+<div class="bubble"><button type="button" class="btn btn-info btn-lg" data-bs-target="#myModal" data-bs-toggle="modal" >See Our Special Promotion!</button>
+  <div id="myModal" class="modal " >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalheader" >10% OFF WITH EMAIL SIGNUP</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" style="width: 50px;"></button>
+          
+        </div>
+       
+        <div class="modal-body">
+          <img src="promotion.png" alt="promotion"  width="70%" >
+          <form action="#" method="post" title="promotionmail" id="add-user-form">
+            <div class="promotionmail">
+                <input type="email" id="promotionmailid" onchange="handleInputChange(event)" name="promotionmail" placeholder="Your email address">
+                <button type="button" id="promotionbutton" onclick="toastr()">Submit</button>
+            </div>
+            <div id="snackbar"><div id="output"></div></div>
+        </form>
+        
+        <script>
+            function toastr() {
+                var x = document.getElementById("promotionmailid").value;
+                const message = document.getElementById("output");
+                message.innerHTML = "";  
+        
+                try {
+                    if (x.trim() == "") throw "empty";
+                    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                   if (!emailPattern.test(x)) throw "not a valid email";
+         
+                    message.innerHTML = "Input is saved: " + x;
+                } catch (err) {
+                    message.innerHTML = "Input is " + err;
+                }
+        
+                var snackbar = document.getElementById("snackbar");
+                snackbar.className = "show";
+                setTimeout(function() {
+                    snackbar.className = snackbar.className.replace("show", "");
+                }, 3000);
+            }
+        </script>
+        
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="spic"></div>
+</div>
+
+</div>
+
+    <section class="suppliers">
+       <p>Our suppliers:</p>
+        <br>
+            <ol id="user-list"></ol>
+        </div>
+    
+
+
+
+    </section>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch("./data.json");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const list = document.getElementById("user-list");
+
+                data.forEach((user) => {
+                    const listItem = document.createElement("li");
+
+                    const name = document.createElement("h3");
+                    name.textContent = user.name;
+
+                   
+
+                    listItem.appendChild(name);
+                    
+                    list.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                console.log("Fetch operation complete.");
+            }
+        }
+
+        fetchData();
+    </script>
+</main>
+    <br>
+    <footer >
+        <h3>NEJRA ZURAPI</h3> 
+        <p>Foundations of Web Development</p>
+    </footer>
+    </body>
+</html>
